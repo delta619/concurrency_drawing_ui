@@ -13,7 +13,7 @@ export class PollService {
     // Send the coordinates to the server
     console.log('Sending trace:');
 
-    this.http.post('http://localhost:3000/api/public/update', {
+    this.http.post('https://concurrency-drawing.onrender.com/api/public/update', {
       actions,
       username,
       screen: "ash"
@@ -26,7 +26,7 @@ export class PollService {
   listenForTraces(data: any): Observable<any> {
     // Listen for traces from the server
     console.log('Listening for traces:');
-    return this.http.post('http://localhost:3000/api/public/wait', {
+    return this.http.post('https://concurrency-drawing.onrender.com/api/public/wait', {
       screenID: "ash",
       username: data.username,
       initial: data.initial
@@ -35,7 +35,7 @@ export class PollService {
 
   clearCanvas(): Observable<any> {
     // Clear the canvas
-    return this.http.post('http://localhost:3000/api/public/clear', {
+    return this.http.post('https://concurrency-drawing.onrender.com/api/public/clear', {
       screen: "ash"
     })
   }
