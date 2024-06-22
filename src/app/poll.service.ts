@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 export class PollService {
 
   constructor(private http: HttpClient) { }
-
+  host = 'https://concurrency-drawing-api.onrender.com';
   sendTrace(actions: { x: number, y: number }[], username: string): void {
     // Send the coordinates to the server
     console.log('Sending trace:');
