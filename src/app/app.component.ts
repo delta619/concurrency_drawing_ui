@@ -113,7 +113,7 @@ export class AppComponent implements OnInit, OnDestroy {
     if (initial) {
       let actions = data.actions;
       console.log(data.data); // [{x:12, y:32}]
-      drawDotsWithDelay(actions, [255, 0, 0], 100);
+      drawDotsWithDelay(actions, [255, 0, 0], 10);
       return;
     }
 
