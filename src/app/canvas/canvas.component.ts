@@ -34,6 +34,7 @@ export class CanvasComponent {
 
 
   }
+  drawMode: 'dot' | 'line' = 'line';
 
   ngOnDestroy(): void {
     this.destroyCanvas();
@@ -82,8 +83,16 @@ export class CanvasComponent {
     };
 
     p.mouseDragged = () => {
-      p.fill(255, 0, 0);
-      p.ellipse(p.mouseX, p.mouseY, 10, 10);
+      if (this.drawMode === 'dot') {
+        p.fill(255, 0, 0);
+        p.ellipse(p.mouseX, p.mouseY, 10, 10);
+      } else if (this.drawMode === 'line') {
+        p.stroke(255, 0, 0);
+        p.strokeWeight(5);
+        if (p.pmouseX !== p.mouseX || p.pmouseY !== p.mouseY) {
+          p.line(p.pmouseX, p.pmouseY, p.mouseX, p.mouseY);
+        }
+      }
       this.trace(p.mouseX, p.mouseY);
     };
   };
@@ -103,32 +112,42 @@ export class CanvasComponent {
       setTimeout(() => this.applyUpdate(data, initial), 100);
       return;
     }
-
+  
     const drawDotsWithDelay = (datapoints: { x: number, y: number }[], color: [number, number, number], delay: number) => {
+      let lastPoint = datapoints[0]; // Start from the first point
       datapoints.forEach((point, index) => {
         setTimeout(() => {
           this.p5.fill(...color);
-          this.p5.ellipse(point.x, point.y, 10, 10);
+          this.p5.stroke(...color);
+          this.p5.strokeWeight(5);
+  
+          if (this.drawMode === 'dot') {
+            this.p5.ellipse(point.x, point.y, 10, 10);
+          } else if (this.drawMode === 'line') {
+            if (lastPoint && (point.x !== lastPoint.x || point.y !== lastPoint.y)) {
+              this.p5.line(lastPoint.x, lastPoint.y, point.x, point.y);
+            }
+            lastPoint = point; // Update lastPoint to the current point after drawing
+          }
         }, index * delay);
       });
     };
-
+  
     if (initial) {
       let actions = data.actions;
-      console.log(data.data); // [{x:12, y:32}]
       drawDotsWithDelay(actions, [255, 0, 0], 10);
       return;
     }
-
+  
     // Apply all the dots to canvas
     for (let event of data.actions) {
       let username = event.username;
       let datapoints = event.actions;
-      let color: [number, number, number] = username === this.username ? [0, 255, 0] : [255, 0, 0];
+      let color: [number, number, number] = username === this.username ? [255, 0, 0] : [255, 0, 0];
       drawDotsWithDelay(datapoints, color, 50);
     }
   }
-
+  
   clearCanvas() {
     this.pollService.clearCanvas(this.screenID).subscribe(() => {
       window.location.reload();
@@ -143,4 +162,7 @@ export class CanvasComponent {
     });
   }
 
+  setDrawMode(mode: 'dot' | 'line') {
+    this.drawMode = mode;
+  }
 }

@@ -1,4 +1,9 @@
 <div class="container">
+  <div class="toolbar">
+    <button (click)="setDrawMode('line')">Line  @if(this.drawMode=="line") {<span>✅</span>}</button>
+    <button (click)="setDrawMode('dot')">Dot  @if(this.drawMode=="dot") {<span>✅</span>}</button>
+  </div>
+
   <h1>CollabPad</h1> <span>User -&nbsp;{{this.username}}</span>
   <div #sketchContainer></div>
 
