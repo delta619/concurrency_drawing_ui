@@ -13,10 +13,16 @@ export class HomeComponent {
 
   constructor(private pollService: PollService) { }
 
+  getURL(){
+    return window.location.href;
+  }
+
   create_screen() {
+
     this.pollService.createScreen().subscribe((response: any) => {
       let screenID = response.screenID;
-      window.location.href = `/${screenID}`;
+      
+      window.location.href = this.getURL() + `/${screenID}`;
       console.log(screenID);
       
     })
