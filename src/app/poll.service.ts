@@ -9,7 +9,7 @@ export class PollService {
 
   public _screenID?: string;
   constructor(private http: HttpClient) { }
-  host = 'https://68.183.248.212';
+  host = 'http://167.99.24.118:80';
   // host = 'http://localhost:3000';
   sendTrace(screenID:string, actions: { x: number, y: number }[], username: string): void {
     // Send the coordinates to the server
