@@ -9,7 +9,7 @@ export class PollService {
 
   public _screenID?: string;
   constructor(private http: HttpClient) { }
-  host = 'https://178.128.128.219:3001';
+  host = 'https://concurrency.livespabyloreto.com';
   // host = 'http://localhost:3000';
   sendTrace(screenID:string, actions: { x: number, y: number }[], username: string): void {
     // Send the coordinates to the server
